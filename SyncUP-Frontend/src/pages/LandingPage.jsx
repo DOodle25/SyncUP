@@ -131,7 +131,63 @@ export default function Component() {
           </p>
         </section>
 
-        <section className="bg-gray-100 py-20">
+        {/* Zigzag Section 1 */}
+        <div className="flex flex-col md:flex-row-reverse items-center mb-10">
+              <div className="md:w-1/2 mb-6 md:mb-0">
+                <h2 className="text-4xl font-bold mb-4">
+                  Move faster with your tools in one place
+                </h2>
+                <p className="text-lg mb-4">
+                  Automate away routine tasks with the power of generative AI and simplify your workflow with all your favourite apps ready to go in Slack.
+                </p>
+                <Link to="https://slack.com/intl/en-in/integrations" className="text-blue-600 hover:underline">
+                  Learn more about the Slack platform
+                </Link>
+              </div>
+              <div className="md:w-1/2">
+                {/* Replace with image or content */}
+                <div className="bg-gray-200 h-64 rounded-lg"></div>
+              </div>
+            </div>
+
+            {/* Zigzag Section 2 */}
+            <div className="flex flex-col md:flex-row items-center mb-10">
+              <div className="md:w-1/2 mb-6 md:mb-0">
+                <h2 className="text-4xl font-bold mb-4">
+                  Choose how you want to work
+                </h2>
+                <p className="text-lg mb-4">
+                  In Slack, you’ve got all the flexibility to work when, where and how it’s best for you. You can easily chat, send audio and video clips, or join a huddle to talk things through live.
+                </p>
+                <Link to="https://slack.com/features" className="text-blue-600 hover:underline">
+                  Learn more about flexible communication
+                </Link>
+              </div>
+              <div className="md:w-1/2">
+                {/* Replace with image or content */}
+                <div className="bg-gray-200 h-64 rounded-lg"></div>
+              </div>
+            </div>
+
+            {/* Zigzag Section 3 */}
+            <div className="flex flex-col md:flex-row-reverse items-center">
+              <div className="md:w-1/2 mb-6 md:mb-0">
+                <h2 className="text-4xl font-bold mb-4">
+                  Bring your team together
+                </h2>
+                <p className="text-lg mb-4">
+                  At the heart of Slack are channels: organised spaces for everyone and everything that you need for work. In channels, it’s easier to connect across departments, offices, time zones and even other companies.
+                </p>
+                <Link to="https://slack.com/features/channels" className="text-blue-600 hover:underline">
+                  Learn more about channels
+                </Link>
+              </div>
+              <div className="md:w-1/2">
+                {/* Replace with image or content */}
+                <div className="bg-gray-200 h-64 rounded-lg"></div>
+              </div>
+            </div>
+            <section className="bg-gray-100 py-20">
           <div className="max-w-6xl mx-auto px-4">
             <h2 className="text-4xl font-bold text-center mb-10">
               More than just conversations: how companies work smarter with Slack.
