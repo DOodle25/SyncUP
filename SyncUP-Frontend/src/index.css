@@ -1,8 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.logo-img {
-  width: 95px !important;
-  max-width: 95px !important; /* Ensure max-width does not override the width */
-}
