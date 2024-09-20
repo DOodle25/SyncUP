@@ -1,21 +1,45 @@
 const express = require('express');
 const Channel = require('../models/Channel');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken'); // Import jsonwebtoken
+
 const router = express.Router();
 
-// Middleware to verify JWT token
+const { getMessages, postMessage, addUserToChannel } = require('../controllers/messageController');
+
+const JWT_SECRET  = 'Dipen123';
+//! Middleware to verify JWT token
+// TODO:Combine with the on in messageRoutes.js declare globally for all protected requests
 const authenticate = (req, res, next) => {
   const token = req.headers['authorization'];
-  if (!token) return res.status(401).json({ error: 'No token provided' });
+  
+  if (!token) {
+    console.log('No token provided');
+    return res.status(401).json({ error: 'No token provided' });
+  }
 
-  jwt.verify(token, JWT_SECRET, (err, decoded) => {
-    if (err) return res.status(401).json({ error: 'Invalid token' });
+  // Extract the token from 'Bearer <token>'
+  const tokenPart = token.split(' ')[1];
+
+  if (!tokenPart) {
+    console.log('Token missing after Bearer');
+    return res.status(401).json({ error: 'Token missing' });
+  }
+
+  jwt.verify(tokenPart, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      console.log('Token verification failed:', err.message);
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    console.log('Token verified successfully, userId:', decoded.userId);
     req.userId = decoded.userId;
     next();
   });
 };
 
-// Get Channels
+
+//! GET:Get Channels
 router.get('/', authenticate, async (req, res) => {
   try {
     const user = await User.findById(req.userId).populate('channels');
@@ -25,7 +49,7 @@ router.get('/', authenticate, async (req, res) => {
   }
 });
 
-// Create Channel
+//! POST:Create Channel
 router.post('/', authenticate, async (req, res) => {
   const { name } = req.body;
   try {
@@ -38,4 +62,8 @@ router.post('/', authenticate, async (req, res) => {
   }
 });
 
+
+router.get('/:channelId/messages', authenticate, getMessages);
+router.post('/:channelId/messages', authenticate, postMessage);
+router.post('/:channelId/add-user', authenticate, addUserToChannel);
 module.exports = router;

@@ -103,12 +103,11 @@
 // export default SignInCard;
 
 
-
-
 import React, { useState } from "react";
 import { Card, CardContent, TextField, Button, Typography } from "@mui/material";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 
 const SignInCard = () => {
@@ -129,24 +128,24 @@ const SignInCard = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // Prevent the default form submission behavior (which triggers a GET request)
+    e.preventDefault();  
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/signin', formData); // Adjust endpoint as needed
+      const response = await axios.post('http://localhost:5000/api/auth/signin', formData);
       const { token, user } = response.data;
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
-      // Update AuthContext or other state management here
+      
       navigate("/");
-      navigate("/");
+      window.location.reload();
     } catch (error) {
       console.error("Sign-in error:", error);
-      // Handle error (e.g., show a message to the user)
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#5C3B58] p-4">
-      <Card className="w-full max-w-md p-6 shadow-md bg-white">
+      <Card className="w-full max-w-md p-6 shadow-md bg-white" sx={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px;" }}>
         <CardContent>
           <Typography variant="h5" className="text-left mb-2">
             Login to continue
@@ -177,10 +176,10 @@ const SignInCard = () => {
               className="mb-4"
             />
             <Button
-              type="submit"
+              type="submit"  // Ensure this is "submit", and no onClick is needed
               variant="contained"
               fullWidth
-              sx={{ backgroundColor: "black" }}
+              sx={{ backgroundColor: "black", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px;" }}
               className="bg-black text-white hover:bg-gray-800 py-2"
             >
               Continue

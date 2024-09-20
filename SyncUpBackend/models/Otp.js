@@ -1,6 +1,7 @@
 const { Schema, model } =  require('mongoose');
 
 const otpSchema = new Schema({
+  // ! Email, OTP, Purpose
   email: {
     type: String,
     required: true,
@@ -11,11 +12,11 @@ const otpSchema = new Schema({
   },
   purpose: {
     type: String,
-    default: 'register_otp' // Purpose can be expanded for different types (register, reset, etc.)
+    default: 'register_otp'
   }
 }, { 
   timestamps: true,
-  expireAfterSeconds: 300 // 5 minutes expiry for OTP
+  expireAfterSeconds: 300 // 5 min
 });
 
 const otpModel = model('OTP', otpSchema);

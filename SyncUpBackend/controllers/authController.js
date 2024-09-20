@@ -6,22 +6,22 @@ const OTP = require('../models/Otp');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = 'Dipen123'; // Your JWT secret
-
+const JWT_SECRET = 'Dipen123';
+// ! NodeMailer Credentials
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   host: 'smtp.gmail.com',
   port: 587,
-  secure: false, // false for port 587
+  secure: false,
   auth: {
     user: 'emailhelper468@gmail.com',
     pass: 'jadf dtgc uths mhqt',
   },
 });
 
-let otpTimer; // Timer variable for debouncing
+let otpTimer;
 
-// Send OTP for Registration
+//! POST:Send OTP for Registration
 const sendRegisterOTP = async (req, res) => {
   try {
     const { email } = req.body;
@@ -30,14 +30,12 @@ const sendRegisterOTP = async (req, res) => {
     if (!validator.isEmail(email)) return res.status(400).json({ message: 'Invalid email format', success: false });
 
     const isEmailAlreadyReg = await User.findOne({ email });
+
     if (isEmailAlreadyReg) return res.status(400).json({ message: `User with email ${email} is already registered`, success: false });
 
     const otp = otpGenerator.generate(6, { digits: true, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
     const hashedOTP = await bcrypt.hash(otp, 12);
-
     const newOTP = await OTP.create({ email, otp: hashedOTP });
-
-    // Clear the existing timer
     clearTimeout(otpTimer);
 
     // Set a new timer to send OTP
@@ -58,7 +56,7 @@ const sendRegisterOTP = async (req, res) => {
         console.error('Error sending OTP:', error);
         res.status(500).json({ message: 'Error sending OTP', success: false });
       }
-    }, 10000); // 10 seconds debounce time
+    }, 10000); // 10 sec
 
   } catch (error) {
     console.error('Error in sendRegisterOTP:', error);
@@ -66,7 +64,7 @@ const sendRegisterOTP = async (req, res) => {
   }
 };
 
-// Register User
+//! POST:Register User
 const register = async (req, res) => {
   try {
     const { name, email, password, otp } = req.body;
@@ -93,7 +91,7 @@ const register = async (req, res) => {
     const newUser = new User({ name, email, password: hashedPassword });
 
     await newUser.save();
-    await OTP.deleteMany({ email }); // Clean up all OTPs for that email
+    await OTP.deleteMany({ email });
 
     res.status(200).json({ message: 'Registration successful', success: true, user: newUser });
 
@@ -102,7 +100,7 @@ const register = async (req, res) => {
   }
 };
 
-// Sign-in User
+//! POST:Sign-in User
 const signIn = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -113,7 +111,11 @@ const signIn = async (req, res) => {
     if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
 
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token, user: user.email, channels: user.channels });
+    res.json({ token, user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email
+    }, channels: user.channels });
   } catch (error) {
     res.status(400).json({ error: 'Error logging in' });
   }

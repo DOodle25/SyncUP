@@ -279,12 +279,12 @@ const SignUpCard = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#5C3B58] p-4">
-      <Card className="w-full max-w-md p-6 shadow-md bg-white">
+      <Card className="w-full max-w-md p-4 shadow-md bg-white" sx={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px;"}}>
         <CardContent>
           <Typography variant="h5" className="text-left mb-2">
             Create an account
           </Typography>
-          <Typography variant="body2" className="text-left text-gray-500 mb-6">
+          <Typography variant="body2" className="text-left text-gray-500 mb-6" >
             Fill in the details below to create an account
           </Typography>
           {error && <Alert severity="error">{error}</Alert>}
@@ -347,7 +347,7 @@ const SignUpCard = () => {
               type="button"
               variant="contained"
               fullWidth
-              sx={{ backgroundColor: "black" }}
+              sx={{ backgroundColor: "black", boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px;" }}
               className="bg-black text-white hover:bg-gray-800 py-2"
               onClick={handleRequestOtp}
             >
@@ -357,7 +357,7 @@ const SignUpCard = () => {
               type="submit"
               variant="contained"
               fullWidth
-              sx={{ backgroundColor: "black" }}
+              sx={{ backgroundColor: "black", boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px;" }}
               className="bg-black text-white hover:bg-gray-800 py-2"
             >
               Sign Up

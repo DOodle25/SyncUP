@@ -3,7 +3,8 @@ const Message = require('../models/Message');
 const Channel = require('../models/Channel');
 const router = express.Router();
 
-// Middleware to verify JWT token
+//! Middleware to verify JWT token
+// TODO: Combine with the one in channelRoutes.js declare globally for all protected requests
 const authenticate = (req, res, next) => {
   const token = req.headers['authorization'];
   if (!token) return res.status(401).json({ error: 'No token provided' });
@@ -15,7 +16,7 @@ const authenticate = (req, res, next) => {
   });
 };
 
-// Get Messages
+//! GET:Get Messages
 router.get('/:channelId/messages', authenticate, async (req, res) => {
   try {
     const messages = await Message.find({ channelId: req.params.channelId }).sort('createdAt');
@@ -25,7 +26,7 @@ router.get('/:channelId/messages', authenticate, async (req, res) => {
   }
 });
 
-// Post Message
+//! POST:Post Message
 router.post('/:channelId/messages', authenticate, async (req, res) => {
   const { message } = req.body;
   try {

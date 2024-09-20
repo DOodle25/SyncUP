@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const channelSchema = new mongoose.Schema({
+  // ! Name, Users, createdAt
   name: { type: String, required: true, unique: true },
   createdAt: { type: Date, default: Date.now },
   users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
