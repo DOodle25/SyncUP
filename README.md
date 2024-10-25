@@ -2,11 +2,11 @@
 
 SyncUp is a real-time messaging application built with the MERN stack (MongoDB, Express.js, React, Node.js). It replicates the core functionalities of Slack, allowing users to create channels, send messages, and collaborate seamlessly. SyncUp is designed to offer a responsive UI and provides support for team collaboration with real-time messaging capabilities.
 
-https://github.com/DOodle25/SyncUP/blob/main/SyncUP.mp4
-<video src="https://github.com/DOodle25/SyncUP/blob/main/SyncUP.mp4" controls="controls" style="max-width: 100%;">
-  Your browser does not support the video tag.
-</video>
-<iframe width="560" height="315" src="https://github.com/DOodle25/SyncUP/blob/main/SyncUP.mp4" frameborder="0" allowfullscreen></iframe>
+
+
+https://github.com/user-attachments/assets/12b3857f-07a2-470d-bb77-9067f220a32b
+
+
 
 ## Table of Contents
 - [Features](#features)
