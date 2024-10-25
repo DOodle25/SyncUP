@@ -6,7 +6,6 @@ SyncUp is a real-time messaging application built with the MERN stack (MongoDB, 
 <video src="https://github.com/DOodle25/SyncUP/blob/main/SyncUP.mp4" controls="controls" style="max-width: 100%;">
   Your browser does not support the video tag.
 </video>
-## Demo Video
 <iframe width="560" height="315" src="https://github.com/DOodle25/SyncUP/blob/main/SyncUP.mp4" frameborder="0" allowfullscreen></iframe>
 
 ## Table of Contents
