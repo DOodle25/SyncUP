@@ -1,42 +1,84 @@
-const Channel = require('../models/Channel');
-const Invitation = require('../models/Invitation');
+// controllers/invitationController.js
+const Invitation = require("../models/Invitation");
+const Channel = require("../models/Channel");
+const User = require("../models/User");
 
-// Create a new channel and send invitations
-exports.createChannel = async (req, res) => {
+// Send an invitation
+exports.sendInvitation = async (req, res) => {
+  const { invitedUserEmail } = req.body;
+  const { channelId } = req.params;
+  const invitedBy = req.userId; 
+
   try {
-    const { name, emails } = req.body;
-    const channel = new Channel({ name });
-    await channel.save();
+    const channel = await Channel.findById(channelId);
 
-    // Send invitations
-    for (const email of emails) {
-      const invitation = new Invitation({ email, channel: channel._id });
-      await invitation.save();
+    if (!channel) {
+      return res.status(404).json({ message: "Channel not found." });
     }
 
-    res.status(201).json(channel);
+    const invitation = new Invitation({
+      channelId,
+      invitedBy,
+      invitedUserEmail,
+      channelName: channel.name, 
+    });
+
+    await invitation.save();
+
+    res.status(200).json({ message: "Invitation sent successfully." });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating channel' });
+    console.error("Error sending invitation:", error);
+    res.status(500).json({ message: "Error sending invitation." });
   }
 };
 
-// Accept an invitation
-exports.acceptInvitation = async (req, res) => {
+// Get pending invitations
+exports.getPendingInvitations = async (req, res) => {
+  console.log("invitedUserEmail");
+  const { email: invitedUserEmail } = req.query;
+  console.log("Email:", invitedUserEmail); 
   try {
-    const invitation = await Invitation.findById(req.params.id);
-    if (!invitation) {
-      return res.status(404).json({ message: 'Invitation not found' });
+    const invitations = await Invitation.find({
+      invitedUserEmail,
+      status: "pending",
+    }).populate("channelId", "name");
+
+    res.status(200).json(invitations);
+  } catch (error) {
+    console.error("Error fetching invitations:", error);
+    res.status(500).json({ message: "Error fetching invitations." });
+  }
+};
+
+exports.respondToInvitation = async (req, res) => {
+  const { invitationId } = req.params;
+  const action = req.url.endsWith("accept") ? "accepted" : "declined"; 
+  try {
+    const invitation = await Invitation.findById(invitationId);
+
+    if (!invitation || invitation.status !== "pending") {
+      return res.status(400).json({ message: "Invalid invitation." });
     }
 
-    const channel = await Channel.findById(invitation.channel);
-    channel.users.push(invitation.user);
-    await channel.save();
+    invitation.status = action;
+    await invitation.save();
 
-    // Remove invitation
-    await Invitation.deleteOne({ _id: invitation._id });
+    if (action === "accepted") {
+      const user = await User.findOne({ email: invitation.invitedUserEmail });
+      
+      if (!user) {
+        return res.status(400).json({ message: "User not found." });
+      }
 
-    res.status(200).json(channel);
+      await Promise.all([
+        Channel.findByIdAndUpdate(invitation.channelId, { $addToSet: { users: user._id } }),
+        User.findByIdAndUpdate(user._id, { $addToSet: { channels: invitation.channelId } })
+      ]);
+    }
+
+    res.status(200).json({ message: `Invitation ${action} successfully.` });
   } catch (error) {
-    res.status(500).json({ message: 'Error accepting invitation' });
+    console.error("Error responding to invitation:", error);
+    res.status(500).json({ message: "Error responding to invitation." });
   }
 };
