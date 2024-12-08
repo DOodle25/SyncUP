@@ -18,6 +18,7 @@ SyncUp is a real-time messaging application built with the MERN stack (MongoDB, 
 
 
 
+
 https://github.com/user-attachments/assets/12b3857f-07a2-470d-bb77-9067f220a32b
 
 
