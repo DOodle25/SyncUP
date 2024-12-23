@@ -53,9 +53,15 @@ router.get('/', authenticate, async (req, res) => {
 router.post('/', authenticate, async (req, res) => {
   const { name } = req.body;
   try {
-    const channel = new Channel({ name });
+    const channel = new Channel({ 
+      name, 
+      users: [req.userId]
+    });
+    
     await channel.save();
+
     await User.findByIdAndUpdate(req.userId, { $push: { channels: channel._id } });
+
     res.status(201).json(channel);
   } catch (error) {
     res.status(400).json({ error: 'Error creating channel' });
@@ -63,7 +69,17 @@ router.post('/', authenticate, async (req, res) => {
 });
 
 
+
 router.get('/:channelId/messages', authenticate, getMessages);
 router.post('/:channelId/messages', authenticate, postMessage);
-router.post('/:channelId/add-user', authenticate, addUserToChannel);
+// router.post('/:channelId/add-user', authenticate, addUserToChannel);
+
+const { sendInvitation, getPendingInvitations, respondToInvitation } = require("../controllers/channelController");
+
+router.post("/:channelId/invite", authenticate, sendInvitation);
+router.get("/invitations", authenticate, getPendingInvitations);
+router.put("/invitations/:invitationId/accept", authenticate, respondToInvitation);
+router.put("/invitations/:invitationId/decline", authenticate, respondToInvitation);
+
+
 module.exports = router;
