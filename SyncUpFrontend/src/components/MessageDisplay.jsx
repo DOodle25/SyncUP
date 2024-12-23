@@ -24,6 +24,7 @@ const MessageDisplay = ({ messages, selectedChannel, channels, name }) => {
     }
   }, [messages]); // Dependency array includes messages to run on messages change
 
+
   const channelName =
     channels.find((ch) => ch._id === selectedChannel)?.name || 'Channel Messages';
 
@@ -80,6 +81,7 @@ const MessageDisplay = ({ messages, selectedChannel, channels, name }) => {
               <Typography
                 sx={{ fontSize: '14px', fontWeight: 400, color: 'rgba(0,0,0,0.6)' }}
               >
+
                 This channel is for all discussions and collaborations.
               </Typography>
             </Stack>
@@ -104,6 +106,7 @@ const MessageDisplay = ({ messages, selectedChannel, channels, name }) => {
                       }}
                     >
                       {name ? name.charAt(0).toUpperCase() : 'U'}
+
                     </Box>
                     <Stack>
                       <Stack direction="row" alignItems="center">
@@ -122,6 +125,7 @@ const MessageDisplay = ({ messages, selectedChannel, channels, name }) => {
                             hour: '2-digit',
                             minute: '2-digit',
                           })}
+
                         </Typography>
                       </Stack>
                       <Typography variant="body1" sx={{ color: 'rgba(0, 0, 0, 0.8)' }}>

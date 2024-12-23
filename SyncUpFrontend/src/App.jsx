@@ -85,7 +85,6 @@ const App = () => {
     fetchChannels();
   }, [token, user]);
   
-
   // useEffect(() => {
   //   let interval;
   //   if (selectedChannel && token) {
@@ -110,7 +109,6 @@ const App = () => {
 
   useEffect(() => {
     let interval;
-  
     if (selectedChannel && token) {
       const fetchMessages = async () => {
         try {
@@ -124,8 +122,7 @@ const App = () => {
         } catch (error) {
           console.error("Error fetching messages:", error);
         }
-      };
-  
+      };  
       fetchMessages(); // Fetch messages immediately
       interval = setInterval(fetchMessages, 5000); // Poll every 5 seconds
     }
@@ -137,7 +134,6 @@ const App = () => {
       }
     };
   }, [selectedChannel, token]);
-  
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex", height: "100vh" }}>

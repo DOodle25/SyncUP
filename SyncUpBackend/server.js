@@ -25,3 +25,6 @@ const MONGO_URI = 'mongodb+srv://Dipen123:Dipen123Password@cluster0.qcvxet4.mong
 mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))
   .catch(err => console.error(err));
+
+
+  module.exports = app;
