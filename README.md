@@ -1,4 +1,5 @@
 # SyncUp - A Slack Clone
+
 ![GitHub](https://img.shields.io/github/repo-size/DOodle25/SyncUP?style=plastic) 
 ![GitHub](https://img.shields.io/github/languages/code-size/DOodle25/SyncUP?style=plastic) 
 ![GitHub](https://img.shields.io/github/license/DOodle25/SyncUP?style=plastic) 
